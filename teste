@@ -1,0 +1,40 @@
+clear
+
+deff('y = f(x)', 'y = exp(x) - 3*x ');
+
+epsilon1 = 10^(-2);
+epsilon2 = 10^(-2);
+Nmax = 100;
+k = 1;
+x(k) = 1.3;
+x(k+1) = 1.7;
+p=0;
+F(k)=f(x(k));
+F(k + 1) = f(x(k+1));
+if abs(f(x(k))) < epsilon1 
+    p = 1;
+    disp (x(1), 'a raiz é ')
+end
+   
+if abs(f(x(k + 1))) < epsilon1 
+    p = 1;
+    disp (x(2), 'a raiz é ')
+else
+    if abs(x(k+1) - x(k)) < epsilon2
+        disp (x(2), ' a raiz é ')
+        p=1;
+    end
+end    
+
+if p == 0
+    k = k + 2;
+    x(k) = [x(k - 2) * f(x(k -1)) - x(k-1) * f(x(k-2))] / [f(x(k-1)) - f(x(k-2))];
+        F(k)=f(x(k));
+        while (((abs (f(x(k)))) >= epsilon1) & ((abs(x(k) - x(k-1)))>= epsilon2) & (k <= Nmax))
+            k = k+1;
+            x(k) = [x(k-2) * f(x(k-1)) - x(k-1) * f(x(k-2))] / [f(x(k-1)) - f(x(k-2))];
+            F(k) = f(x(k));
+        end
+        disp(x(k), ' a raiz é ')
+end
+disp(F(k),'f(x)=', x(k), 'x=');
